@@ -10,6 +10,7 @@ export async function auth() {
     return {
       userId: payload.user.id,
       sessionClaims: {
+        username: payload.user.username,
         metadata: {
           role: payload.user.role.toLowerCase(),
         },
