@@ -72,7 +72,7 @@ export default function LoginPage() {
         </form>
         
         <div className="mt-4 text-center flex flex-col gap-1">
-            <p className="text-[10px] text-gray-400">© 2024 {process.env.NEXT_PUBLIC_SCHOOL_NAME}. All rights reserved.</p>
+            <p className="text-[10px] text-gray-400">© 2026 {process.env.NEXT_PUBLIC_SCHOOL_NAME}. All rights reserved.</p>
             <a 
               href={process.env.NEXT_PUBLIC_DEVELOPER_URL} 
               target="_blank" 

@@ -69,4 +69,4 @@ npm run dev
 ---
 
 ## 📜 License
-© 2024 ST. NORBERT'S SCHOOL. All rights reserved. Proprietary software developed by Verve Nova Technologies.
+© 2026 ST. NORBERT'S SCHOOL. All rights reserved. Proprietary software developed by Verve Nova Technologies.
