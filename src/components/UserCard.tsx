@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 const UserCard = async ({
   type,
 }: {
-  type: "admin" | "teacher" | "student" | "parent" | "books" | "issued" | "overdue" | "fines";
+  type: "admin" | "teacher" | "student" | "parent" | "books" | "issued" | "overdue" | "fines" | "feeCollection" | "payroll" | "pendingFees" | "expenses";
 }) => {
   const modelMap: Record<typeof type, any> = {
     admin: prisma.admin,
@@ -15,12 +15,22 @@ const UserCard = async ({
     issued: prisma.bookIssue,
     overdue: prisma.bookIssue,
     fines: prisma.feePayment,
+    feeCollection: prisma.feePayment,
+    payroll: prisma.payroll,
+    pendingFees: prisma.feePayment,
+    expenses: prisma.payroll,
   };
 
   const data = type === "issued" 
     ? await prisma.bookIssue.count({ where: { status: "ISSUED" } })
-    : type === "overdue"
-    ? await prisma.bookIssue.count({ where: { status: "ISSUED", dueDate: { lt: new Date() } } })
+    : type === "feeCollection"
+    ? await prisma.feePayment.count({ where: { status: "PAID" } })
+    : type === "pendingFees"
+    ? await prisma.feePayment.count({ where: { status: "PENDING" } })
+    : type === "payroll"
+    ? await prisma.payroll.count()
+    : type === "expenses"
+    ? await prisma.payroll.count({ where: { status: "PAID" } })
     : await modelMap[type]?.count() || 0;
 
   return (
