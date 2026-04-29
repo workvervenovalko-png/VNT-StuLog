@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { sendMessage, getMessages } from "@/lib/actions";
 
@@ -11,7 +11,7 @@ const ChatClient = ({ initialContacts, currentUserId }: { initialContacts: any[]
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // FETCH MESSAGES
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     if (!selectedChat) return;
     const data = await getMessages(selectedChat.id);
     setMessages(data.map((m: any) => ({
@@ -19,13 +19,13 @@ const ChatClient = ({ initialContacts, currentUserId }: { initialContacts: any[]
       text: m.content,
       type: m.senderId === currentUserId ? "sent" : "received"
     })));
-  };
+  }, [selectedChat, currentUserId]);
 
   useEffect(() => {
     fetchMessages();
     const interval = setInterval(fetchMessages, 3000); // Poll every 3 seconds
     return () => clearInterval(interval);
-  }, [selectedChat]);
+  }, [fetchMessages]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
